@@ -15,7 +15,7 @@ class Db_object {
 	//query user by id
 	public static function find_by_id($pk_id) {
 
-		$array_result = static::find_by_query("SELECT * FROM " . static::$db_table . " WHERE " . static::$pk_field . " = $pk_id LIMIT 1");
+		$array_result = static::find_by_query("SELECT * FROM " . static::$db_table . " WHERE " . static::$pk_field . " = $pk_id LIMIT 1 OFFSET 0");
 
 		return !empty($array_result) ? array_shift($array_result) : false;
 	}
@@ -27,7 +27,7 @@ class Db_object {
 		$result_query = $database->query_db($query);
 		$ob_array = array();
 
-		while($row = mysqli_fetch_array($result_query)) {
+		while($row = $result_query->fetch(PDO::FETCH_ASSOC)) {
 
 			$ob_array[] = static::instance($row);
 		}
@@ -82,7 +82,7 @@ class Db_object {
 
 		foreach ($this->properties() as $key => $value) {
 			
-			$clean_properties[$key] = $database->escape_string_query($value);
+			$clean_properties[$key] = $value;
 		}
 
 		return $clean_properties;
@@ -97,14 +97,22 @@ class Db_object {
 
 	public function create() {
 		global $database;
+
 		$pk_string = static::$pk_field;
 
 		$properties = $this->clean_properties();
 
 		$insert_query = "INSERT INTO " . static::$db_table . " (" . implode(", ", array_keys($properties)) .")";
-		$insert_query .= " VALUES ('" . implode("', '", array_values($properties)) . "')";
+		$insert_query .= " VALUES (:" . implode(", :", array_keys($properties)) . ")";
 
-		if($database->query_db($insert_query)) {
+		$prepared_query = $database->pgsql_ob->prepare($insert_query);
+
+		foreach($properties as $k=>$v) {
+
+			$prepared_query->bindValue(":{$k}", $v);
+		}
+
+		if($prepared_query->execute()) {
 
 			$this->$pk_string = $database->inserted_id();
 			return true;
@@ -126,16 +134,23 @@ class Db_object {
 		$pairs = array();
 
 		foreach ($properties as $key => $value) {
-			$pairs[] = "{$key} = '{$value}'";
+			$pairs[] = "{$key} = :{$key}";
 		}
 
 		$update_query = "UPDATE " . static::$db_table . " SET ";
 		$update_query .= implode(", ", $pairs);
-		$update_query .=  " WHERE ". static::$pk_field . " = " . $database->escape_string_query($this->$pk_string);
+		$update_query .=  " WHERE ". static::$pk_field . " = " . $this->$pk_string;
 
-		$database->query_db($update_query);
+		$prepared_query = $database->pgsql_ob->prepare($update_query);
 
-		return $database->mysql_ob->affected_rows == 1 ? true : false;
+		foreach($properties as $k=>$v) {
+
+			$prepared_query->bindValue(":{$k}", $v);
+		}
+
+		$prepared_query->execute();
+
+		return $prepared_query->rowCount() == 1 ? true : false;
 
 	} // End of Update method
 
@@ -144,12 +159,16 @@ class Db_object {
 
 		$pk_string = static::$pk_field;
 
-		$delete_query = "DELETE FROM " . static::$db_table . " WHERE " . static::$pk_field ." = " . $database->escape_string_query($this->$pk_string);
-		$delete_query .= " LIMIT 1";
+		$delete_query  = "DELETE FROM " . static::$db_table . " WHERE {$pk_string} = :{$pk_string}";
+		// $delete_query .= " LIMIT 1 OFFSET 0";
 
-		$database->query_db($delete_query);
+		$prepared_query = $database->pgsql_ob->prepare($delete_query);
 
-		return $database->mysql_ob->affected_rows == 1 ? true : false;
+		$prepared_query->bindValue(":{$pk_string}", $this->$pk_string);
+
+		$prepared_query->execute();
+
+		return $prepared_query->rowCount() == 1 ? true : false;
 		
 	}
 
@@ -157,9 +176,10 @@ class Db_object {
 
 		global $database;
 
-		$sql        = "SELECT COUNT(*) FROM " . static::$db_table;
-		$result_set = $database->query_db($sql);
-		$row        = $result_set->fetch_array();
+		$sql            = "SELECT COUNT(*) FROM " . static::$db_table;
+		$prepared_query = $database->pgsql_ob->prepare($sql);
+		$result_set     = $prepared_query->execute();
+		$row            = $result_query->fetch(PDO::FETCH_ASSOC);
 
 		return array_shift($row);
 

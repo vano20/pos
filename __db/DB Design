@@ -1,0 +1,54 @@
+Aplikasi Pos Test
+
+Terdapat user login berdasarkan hak aksesnya
+Terdapat master CRUD untuk pembuatan master
+Terdapat menu transaksi untuk penjualannya
+Terdapat menu informasi untuk melakukan proses pembatalan penjualannya
+Terdapat menu laporan yang dapat ditampilkan dengan grafik
+
+Table Master
+
+User
+- id
+- id_usergroup
+- username
+- password
+- firstname
+- lastname
+- status
+
+Usergroup
+- id
+- description
+- menusummary
+
+category
+- id
+- name
+- description
+
+Product
+- id
+- name
+- description
+- price
+- stock
+- created_date
+- added_date
+
+Order
+- id
+- invoice
+- id_user
+- total
+- created_date
+- Updated_date
+
+Order detail
+- id
+- id_order
+- id_product
+- qty
+- price
+- created_date
+- updated_date

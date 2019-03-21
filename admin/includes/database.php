@@ -7,22 +7,22 @@ require_once("config_db.php");
 **/
 class Database {
 
-	public $mysql_ob;
+	public $pgsql_ob;
 
 	function __construct() {
 		$this->open_db_connection();
 
 	}
 
-	//function untuk conenction ke DB
+	//function untuk connection ke DB
 	public function open_db_connection() {
 
 		//connection instance
-		$this->mysql_ob = new mysqli(DB_HOST,DB_USER,DB_PASS,DB_NAME);
+		$this->pgsql_ob = new PDO("pgsql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME.";user=".DB_USER.";password=".DB_PASS);
 
-		if($this->mysql_ob->connect_errno){
-			die("Error: Database connection error " . $this->mysql_ob->connect_error);
-		}
+		// $this->pgsql_ob->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		// return $this->pgsql_ob;
 
 	}
 
@@ -31,7 +31,7 @@ class Database {
 
 		//check query is string and not space or empty string
 		if (is_string($str_query) && $str_query !== '') {
-			$result_query = $this->mysql_ob->query($str_query);
+			$result_query = $this->pgsql_ob->query($str_query);
 		} else die("System fatal error: Please contact administrator !");
 		
 		$this->confirm_query($result_query);
@@ -42,18 +42,19 @@ class Database {
 	private function confirm_query($result) {
 
 		//check mysqli_query return value
-		if(!$result) die("Query error: " . $this->mysql_ob->error);
+		if(!$result) die("Query error: ");
 	}
 
 	//function untuk escaping query str
-	public function escape_string_query($str_query) {
+	// public function escape_string_query($str_query) {
 
-		return $this->mysql_ob->real_escape_string($str_query);
-	}
+	// 	return $this->pgsql_ob->quote($str_query);
+	// }
 
 	public function inserted_id() {
-		return $this->mysql_ob->insert_id;
+		return $this->pgsql_ob->lastInsertId();
 	}
+
 } //End of Database class
 
 $database = new Database();
