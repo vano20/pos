@@ -13,7 +13,10 @@
             <a href="category.php"><i class="fa fa-book"></i> Category</a>
         </li>
         <li>
-            <a href="comments.php"><i class="fa fa-fw fa-edit"></i> Comments</a>
+            <a href="product.php"><i class="fa fa-archive"></i> Product</a>
+        </li>
+        <li>
+            <a href="order.php"><i class="fa fa-cc"></i> Order</a>
         </li>
     </ul>
 </div>

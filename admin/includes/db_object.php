@@ -112,9 +112,11 @@ class Db_object {
 			$prepared_query->bindValue(":{$k}", $v);
 		}
 
+		// return $prepared_query;
+
 		if($prepared_query->execute()) {
 
-			$this->$pk_string = $database->inserted_id();
+			$this->$pk_string = $database->inserted_id(static::$db_table . "_id");
 			return true;
 
 		} else {
@@ -177,8 +179,7 @@ class Db_object {
 		global $database;
 
 		$sql            = "SELECT COUNT(*) FROM " . static::$db_table;
-		$prepared_query = $database->pgsql_ob->prepare($sql);
-		$result_set     = $prepared_query->execute();
+		$result_query   = $database->pgsql_ob->query($sql);
 		$row            = $result_query->fetch(PDO::FETCH_ASSOC);
 
 		return array_shift($row);

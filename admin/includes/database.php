@@ -20,7 +20,7 @@ class Database {
 		//connection instance
 		$this->pgsql_ob = new PDO("pgsql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME.";user=".DB_USER.";password=".DB_PASS);
 
-		// $this->pgsql_ob->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$this->pgsql_ob->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		// return $this->pgsql_ob;
 
@@ -51,8 +51,8 @@ class Database {
 	// 	return $this->pgsql_ob->quote($str_query);
 	// }
 
-	public function inserted_id() {
-		return $this->pgsql_ob->lastInsertId();
+	public function inserted_id($seq="") {
+		return $this->pgsql_ob->lastInsertId($seq);
 	}
 
 } //End of Database class
