@@ -1,5 +1,7 @@
 # pos
-Aplikasi Pos Test
+Aplikasi Point of Sales sederhana
+
+dibuat dengan php native OOP
 
 1. Terdapat user login berdasarkan hak aksesnya
 2. Terdapat master CRUD untuk pembuatan master
