@@ -9,7 +9,7 @@ class Db_object {
 	//query all from table users
 	public static function find_all() {
 		
-		return static::find_by_query("SELECT * FROM " . static::$db_table);
+		return static::find_by_query("SELECT * FROM " . static::$db_table . " ORDER BY id ASC");
 	}
 
 	//query user by id

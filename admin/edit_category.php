@@ -4,23 +4,21 @@
 
 <?php 
 
-if(empty($_GET['id'])) redirect("user.php");
-else $user = User::find_by_id($_GET['id']);
+if(empty($_GET['id'])) redirect("category.php");
+else $category = Category::find_by_id($_GET['id']);
 
 // print_r($_FILES['usr_pic']); die();
 
 if(isset($_POST['update'])){
 
-    if($user) {
+    if($category) {
 
-        $user->username     = $_POST['username'];
-        $user->full_name    = $_POST['full_name'];
-        $user->usergroup    = $_POST['usergroup'];
-        $user->password     = isset($_POST['usr_password']) && $_POST['usr_password'] != "" ? $_POST['usr_password'] : $user->usr_password ;
+        $category->name        = $_POST['name'];
+        $category->description = $_POST['description'];
 
-        $user->save();
+        $category->save();
 
-        redirect("edit_user.php?id={$user->usr_id}");
+        redirect("edit_category.php?id={$category->id}");
     }
 
 
@@ -56,7 +54,7 @@ if(isset($_POST['update'])){
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Edit User
+                            Edit category
                             <small>Subheading</small>
                         </h1>
                         <!-- START MAIN FORM -->
@@ -66,31 +64,16 @@ if(isset($_POST['update'])){
                             <div class="col-md-6">
                                 
                                 <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input type="text" name="username" class="form-control" value="<?=$user->username?>">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" class="form-control" value="<?=$category->name?>">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="full_name">Full Name</label>
-                                    <input type="text" name="full_name" class="form-control" value="<?=$user->full_name?>">
+                                    <label for="description">Description</label>
+                                    <textarea name="description" class="form-control" value="" rows=5><?=$category->description?></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="usergroup">Usergroup</label>
-                                    <select name="usergroup" class="form-control">
-                                        <option value=""></option>
-                                        <?php
-                                        $usergroup = Usergroup::find_all();
-                                        foreach($usergroup as $v) : ?>
-                                            <option <?=$v->id == $user->usergroup ? "selected" : ""?> value="<?=$v->id?>"><?=$v->name?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="Password">Password</label>
-                                    <input type="password" name="password" class="form-control" value="">
-                                </div>
-                                <div class="form-group">
-                                    <a href="delete_user.php?id=<?=$user->id?>" class="btn btn-danger">Delete</a>
+                                    <a href="delete_category.php?id=<?=$category->id?>" class="btn btn-danger">Delete</a>
                                     <input type="submit" name="update" class="btn btn-primary pull-right" value="Update">
                                 </div>
                             </div>

@@ -4,18 +4,16 @@ s<?php include("includes/header.php"); ?>
 
 <?php 
 
-$user = new User();
+$category = new Category();
 
 if(isset($_POST['create'])){
 
-    if($user) {
+    if($category) {
 
-        $user->username     = $_POST['username'];
-        $user->full_name    = $_POST['full_name'];
-        $user->usergroup    = $_POST['usergroup'];
-        $user->password     = $_POST['password'];
+        $category->name         = $_POST['name'];
+        $category->description  = $_POST['description'];
 
-        $user->save();
+        $category->save();
     }
 
 
@@ -51,7 +49,7 @@ if(isset($_POST['create'])){
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            User
+                            Category
                             <small>Subheading</small>
                         </h1>
                         <!-- START MAIN FORM -->
@@ -60,28 +58,13 @@ if(isset($_POST['create'])){
                             <div class="col-md-6 col-md-offset-3">
 
                                 <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input type="text" name="username" class="form-control" value="">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" class="form-control" value="">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="full_name">Full Name</label>
-                                    <input type="text" name="full_name" class="form-control" value="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="usergroup">User group</label>
-                                    <select name="usergroup" class="form-control">
-                                        <option value=""></option>
-                                        <?php
-                                        $usergroup = Usergroup::find_all();
-                                        foreach($usergroup as $v) : ?>
-                                            <option value="<?=$v->id?>"><?=$v->name?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="Password">Password</label>
-                                    <input type="password" name="password" class="form-control" value="">
+                                    <label for="description">Description</label>
+                                    <textarea name="description" class="form-control" value="" rows=5></textarea>
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" name="create" class="btn btn-primary pull-right">

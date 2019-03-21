@@ -20,7 +20,7 @@
             // $product->stock = 99;
             // $product->category = $i;
 
-            echo $product->update() ? "update sukses produk $a category $i" : "update Gagal produk $a category $i";
+            // echo $product->update() ? "update sukses produk $a category $i" : "update Gagal produk $a category $i";
             echo "<br>";
             $j++;
         }

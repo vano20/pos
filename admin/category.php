@@ -5,7 +5,7 @@
 <?php 
 
 
-$user = User::find_all();
+$category = Category::find_all();
 
 
 ?>
@@ -41,7 +41,7 @@ $user = User::find_all();
                             
                         </h1>
 
-                        <a href="add_user.php" class="btn btn-primary">Add User</a>
+                        <a href="add_category.php" class="btn btn-primary">Add Category</a>
                         
                         <div class="col-md-12">
                         
@@ -49,26 +49,22 @@ $user = User::find_all();
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Username</th>
-                                        <th>Full Name</th>
-                                        <th>Usergroup</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($user as $v) : 
-                                        $usergroup = Usergroup::find_by_id($v->usergroup);
-                                        ?>
+                                    <?php foreach($category as $v) : ?>
                                     <tr>
                                         <td><?php echo $v->id; ?></td>
-                                        <td><?php echo $v->username; ?>
+                                        <td><?php echo $v->name; ?>
                                             <div class="pic_link">
-                                                <a href="delete_user.php?id=<?php echo $v->id; ?>">Delete</a>
-                                                <a href="edit_user.php?id=<?php echo $v->id; ?>">Edit</a>
+                                                <a href="delete_category.php?id=<?php echo $v->id; ?>">Delete</a>
+                                                <a href="edit_category.php?id=<?php echo $v->id; ?>">Edit</a>
                                             </div>
 
                                         </td>
-                                        <td><?php echo $v->full_name; ?></td>
-                                        <td><?php echo $usergroup->name; ?></td>
+                                        <td><?php echo $v->description; ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>
