@@ -2,48 +2,114 @@
 
 <div class="container-fluid">
 
-    <?php
+     <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Welcome !
+                <small>Dashboard</small>
+            </h1>
 
-    $order = new Order();
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-users fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><?=$session->count?></div>
+                                    <div>New Views</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                 <div>Page View from Gallery</div>
+                              <span class="pull-left">View Details</span> 
+                           <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span> 
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
 
-    $order->invoice       = $order->create_invoice();
-    $order->users          = 1;
-    $order->total          = 0;
-    $order->created_date  = date("Y-m-d H:i:s");
-    $order->updated_date  = date("Y-m-d H:i:s");
-    $order->status        = 1;
+                 <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-photo fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><?=Product::count_all()?></div>
+                                    <div>Product</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Total Product</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
 
-    try {
-        $order->create();
-        echo 'insert';
-    } catch (\PDOException $e) {
-        echo $e->getMessage();
-    }
 
-    // $j = 1;
+                 <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-user fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><?=User::count_all()?>
 
-    // for ($i=1; $i <= 5; $i++) { 
-        
-    //     for ($a=1; $a <=2 ; $a++) {
+                                    </div>
 
-    //         $product = Product::find_by_id($j); 
-            
-    //         // $product->name = "Product $a";
-    //         $product->description = "This product $a is updated from category $i";
-    //         // $product->price = 1000;
-    //         // $product->stock = 99;
-    //         // $product->category = $i;
+                                    <div>Users</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Total Users</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
 
-    //         // echo $product->update() ? "update sukses produk $a category $i" : "update Gagal produk $a category $i";
-    //         echo "<br>";
-    //         $j++;
-    //     }
-    // }
+                  <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-support fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><?=Order::count_all()?></div>
+                                    <div>Penjualan</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Total Penjualan</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
 
-    // echo "<pre>";
-    // print_r($user);
 
-     ?>
+            </div> <!--First Row-->
 
 </div>
 <!-- /.container-fluid -->

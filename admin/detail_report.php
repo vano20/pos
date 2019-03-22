@@ -1,12 +1,12 @@
 <?php include("includes/header.php"); ?>
 
 <?php if(!$session->is_login()) redirect("login.php"); ?>
+<?php if($session->usergroup != 2) redirect("index.php"); ?>
 
 <?php 
 
-
-$photo = Photo::find_all();
-
+if(empty($_GET['date'])) redirect("report.php");
+else $order = Order::report_tanggal($_GET['date']);
 
 ?>
 
@@ -37,40 +37,42 @@ $photo = Photo::find_all();
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Photos
-                            <small>Subheading</small>
+                            Report by date
+                            
                         </h1>
+
+                        <div class="row">
+                
+                            <div id="piechart" style="width: 900px; height: 500px;"></div>
+
+                        </div>
                         
                         <div class="col-md-12">
                         
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Photo</th>
                                         <th>Id</th>
-                                        <th>File name</th>
-                                        <th>Title</th>
-                                        <th>Size</th>
-                                        <th>Comments</th>
+                                        <th>Invoice</th>
+                                        <th>User</th>
+                                        <th>Total</th>
+                                        <th>Date Created</th>
+                                        <th>Last Update</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php foreach($photo as $v) : ?>
+                                <tbody> 
+                                    <?php foreach($order as $v) : 
+                                        $user = User::find_by_id($v->users);
+                                        ?>
                                     <tr>
-                                        <td><img class="admin-photo-thumbnail" src="<?php echo $v->file_path(); ?>" alt="">
-                                            <div class="action_link">
-                                                <a href="delete_photo.php?id=<?php echo $v->pht_id; ?>">Delete</a>
-                                                <a href="edit_photo.php?id=<?php echo $v->pht_id; ?>">Edit</a>
-                                                <a href="../photo.php?id=<?=$v->pht_id?>">View</a>
-                                            </div>
-                                        </td>
-                                        <td><?php echo $v->pht_id; ?></td>
-                                        <td><?php echo $v->pht_filename; ?></td>
-                                        <td><?php echo $v->pht_title; ?></td>
-                                        <td><?php echo $v->pht_size; ?></td>
-                                        <td><?php $theComment = Comment::find_comment($v->pht_id); ?>
-                                            <a href="comment_photo.php?id=<?php echo $v->pht_id; ?>"><?=count($theComment)?></a>
-                                        </td>
+                                        <td><?php echo $v->id; ?></td>
+                                        <td><?php echo $v->invoice; ?></td>
+                                        <td><?php echo $user->full_name; ?></td>
+                                        <td><?php echo $v->total; ?></td>
+                                        <td><?php echo $v->created_date; ?></td>
+                                        <td><?php echo $v->updated_date; ?></td>
+                                        <td><?php echo $v->status == 1 ? "Sukses" : "Batal"; ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>

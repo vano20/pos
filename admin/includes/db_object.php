@@ -186,6 +186,19 @@ class Db_object {
 
 	}
 
+	public static function cond_count($where="") {
+
+		global $database;
+
+		$sql           = "SELECT COUNT(*) FROM " . static::$db_table;
+		$sql 		  .= $where;
+		$result_query  = $database->pgsql_ob->query($sql);
+		$row           = $result_query->fetch(PDO::FETCH_ASSOC);
+
+		return array_shift($row);
+
+	}
+
 }
 
 

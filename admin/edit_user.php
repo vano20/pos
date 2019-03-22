@@ -1,6 +1,7 @@
 <?php include("includes/header.php"); ?>
 
 <?php if(!$session->is_login()) redirect("login.php"); ?>
+<?php if($session->usergroup != 2) redirect("index.php"); ?>
 
 <?php 
 
@@ -16,7 +17,7 @@ if(isset($_POST['update'])){
         $user->username     = $_POST['username'];
         $user->full_name    = $_POST['full_name'];
         $user->usergroup    = $_POST['usergroup'];
-        $user->password     = isset($_POST['usr_password']) && $_POST['usr_password'] != "" ? $_POST['usr_password'] : $user->usr_password ;
+        $user->password     = isset($_POST['password']) && $_POST['password'] != "" ? $_POST['password'] : $user->password ;
 
         $user->save();
 

@@ -1,12 +1,12 @@
 <?php include("includes/header.php"); ?>
 
 <?php if(!$session->is_login()) redirect("login.php"); ?>
+<?php if($session->usergroup != 2) redirect("index.php"); ?>
 
 <?php 
 
 
-$comment = Comment::find_all();
-
+$order = Order::report_per_tanggal();
 
 ?>
 
@@ -37,7 +37,7 @@ $comment = Comment::find_all();
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Comments
+                            Report by date
                             
                         </h1>
                         
@@ -46,23 +46,28 @@ $comment = Comment::find_all();
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Author</th>
-                                        <th>Content</th>
+                                        <th></th>
+                                        <th>Tanggal</th>
+                                        <th>Jumlah Invoice</th>
+                                        <th>Sukses</th>
+                                        <th>Batal</th>
+                                        <th>Detail</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php foreach($comment as $v) :
-                                        $user = User::find_by_id($v->cmt_user); ?>
-                                    <tr>
-                                        <td><?php echo $v->cmt_id; ?></td>
-                                        <td><?php echo $user->usr_username; ?>
-                                            <div class="pic_link">
-                                                <a href="delete_comment.php?id=<?php echo $v->cmt_id; ?>">Delete</a>
-                                            </div>
+                                <tbody> 
+                                    <?php 
 
-                                        </td>
-                                        <td><?php echo $v->cmt_body; ?></td>
+                                    $no = 0;
+                                    foreach($order as $v) : 
+                                        $jumlah_invoice = Order::cond_count(" WHERE TO_CHAR(created_date :: DATE, 'dd-mm-yyyy') = '" . $v['tanggal'] . "' ");    
+                                    ?>
+                                    <tr>
+                                        <td><?php echo ++$no; ?></td>
+                                        <td><?php echo $v['tanggal']; ?></td>
+                                        <td><?php echo $jumlah_invoice; ?></td>
+                                        <td><?php echo $v['sukses']; ?></td>
+                                        <td><?php echo $v['batal']; ?></td>
+                                        <td><a class="btn btn-primary" href="detail_report.php?date=<?=$v['tanggal']?>&success=<?=$v['sukses']?>&cancel=<?=$v['batal']?>">Report</a></td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>

@@ -1,6 +1,7 @@
 <?php include("includes/init.php"); ?>
 
 <?php if(!$session->is_login()) redirect("login.php"); ?>
+<?php if($session->usergroup != 2) redirect("index.php"); ?>
 
 <?php 
 

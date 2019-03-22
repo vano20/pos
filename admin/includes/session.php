@@ -6,6 +6,8 @@ class Session {
 	public  $user_id;
 	public  $message;
 	public  $count;
+	public  $usergroup;
+
 
 	function __construct() {
 
@@ -49,7 +51,7 @@ class Session {
 		if($user) {
 			$this->user_id = $_SESSION['user_id'] = $user->id;
 			$this->signed_in = true;
-			$this->usergroup = $user->usergroup;
+			$this->usergroup = $_SESSION['usergroup'] = $user->usergroup;
 
 			redirect("index.php");
 		}
@@ -68,10 +70,12 @@ class Session {
 			//set prop with session obj value
 			$this->user_id = $_SESSION['user_id'];
 			$this->signed_in = true;
+			$this->usergroup = $_SESSION['usergroup'];
 		} else {
 			//unset innate prop
 			unset($this->user_id);
 			$this->signed_in = false;
+			unset($this->usergroup);
 		}
 	}
 }

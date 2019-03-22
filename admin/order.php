@@ -66,7 +66,9 @@ $order = Order::find_all();
                                         <td><?php echo $v->id; ?></td>
                                         <td><?php echo $v->invoice; ?>
                                             <div class="pic_link">
+                                                <?php if($session->usergroup == 2) { ?>
                                                 <a href="delete_order.php?id=<?php echo $v->id; ?>">Delete</a>
+                                                <?php } ?>
                                                 <a href="edit_order.php?id=<?php echo $v->id; ?>">Batalkan</a>
                                             </div>
 

@@ -29,32 +29,34 @@ if(isset($_POST['submit'])) {
 ?>
 
 
-<div class="col-md-4 col-md-offset-3">
+<div class="container-bg" style="background-color: white;">
+	<div class="col-md-4 col-md-offset-3">
 
-<h4 class="bg-danger"><?php echo $error_login_message; ?></h4>
-	
-<form id="login-id" action="" method="post">
-	
-<div class="form-group">
-	<label for="username">Username</label>
-	<input type="text" class="form-control" name="usr_username" value="<?php echo htmlentities($username); ?>" >
+	<h4 class="bg-danger"><?php echo $error_login_message; ?></h4>
+		
+	<form id="login-id" action="" method="post">
+		
+	<div class="form-group">
+		<label for="username" style="color: #fff;">Username</label>
+		<input type="text" class="form-control" name="usr_username" value="<?php echo htmlentities($username); ?>" >
 
-</div>
+	</div>
 
-<div class="form-group">
-	<label for="password">Password</label>
-	<input type="password" class="form-control" name="usr_password" value="<?php echo htmlentities($password); ?>">
-	
-</div>
-
-
-<div class="form-group">
-<input type="submit" name="submit" value="Submit" class="btn btn-primary">
-
-</div>
+	<div class="form-group">
+		<label for="password" style="color: #fff;">Password</label>
+		<input type="password" class="form-control" name="usr_password" value="<?php echo htmlentities($password); ?>">
+		
+	</div>
 
 
-</form>
+	<div class="form-group">
+	<input type="submit" name="submit" value="Submit" class="btn btn-primary">
+
+	</div>
 
 
+	</form>
+
+
+	</div>
 </div>

@@ -13,25 +13,28 @@
     <script src="js/scripts.js"></script>
 
     <script type="text/javascript">
-      // google.charts.load('current', {'packages':['corechart']});
-      // google.charts.setOnLoadCallback(drawChart);
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
 
-      // function drawChart() {
+      function drawChart() {
 
-      //   var data = google.visualization.arrayToDataTable([
-      //     ['Task', 'Hours per Day']
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Sukses',    <?=$_GET['success']?>],
+          ['Gagal',     <?=$_GET['cancel']?>]
+        ]);
 
-      //   var options = {
-      //     legend: 'none',
-      //     pieSliceText: 'label',
-      //     title: 'Traffic Chart',
-      //     backgroundColor: 'transparent'
-      //   };
+        var options = {
+          legend: 'none',
+          pieSliceText: 'label',
+          title: 'Grafik Penjualan',
+          backgroundColor: 'transparent'
+        };
 
-      //   var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-      //   chart.draw(data, options);
-      // }
+        chart.draw(data, options);
+      }
     </script>
     
 </body>
