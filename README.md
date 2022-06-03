@@ -1,7 +1,7 @@
-# pos
-Aplikasi Point of Sales sederhana
+# Point of sales
+Simple Point of sales application
 
-dibuat dengan php native OOP
+created using php native with OOP approach
 
 User Demo:
 
